@@ -10,7 +10,17 @@ module DataStructures
 
     # Adds element to the end of the list
     def append(element)
-      # TODO
+      @size += 1
+      new_node = Node.new(element)
+
+      if @header
+        @trailer.next = new_node
+        new_node.prev = @trailer
+      else
+        @header = new_node
+      end
+
+      @trailer = new_node
     end
 
     # Adds element at the beginning of the list
@@ -31,6 +41,7 @@ module DataStructures
     # Removes element by index
     def remove_at(index)
       # TODO
+      @size -= 1
     end
 
     # Removes all elements
@@ -75,7 +86,7 @@ module DataStructures
 
     # Returns the size of list
     def size
-      # TODO
+      @size
     end
 
     # Returns true if the given element is present in list, otherwise returns false
@@ -85,7 +96,39 @@ module DataStructures
 
     # Returns true if list contains no elements, otherwise returns false
     def empty?
-      # TODO
+      @size.zero?
+    end
+
+    def inspect
+      "[#{build_elements_to_inspect}]"
+    end
+
+    private
+
+    def build_elements_to_inspect
+      return nil if empty?
+      return @header.data if @header == @trailer
+      return short_inspect if @size > 5
+
+      full_inspect
+    end
+
+    def full_inspect
+      result = @header.data.to_s
+
+      pointer = @header.next
+
+      until pointer.nil?
+        result += ", #{pointer.data}"
+
+        pointer = pointer.next
+      end
+
+      result
+    end
+
+    def short_inspect
+      "#{@header.data}, #{@header.next.data}, ..., #{@trailer.prev.data}, #{@trailer.data}"
     end
   end
 end

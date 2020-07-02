@@ -14,8 +14,8 @@ module DataStructures
       new_node = Node.new(element)
 
       if @header
-        @trailer.next = new_node
         new_node.prev = @trailer
+        @trailer.next = new_node
       else
         @header = new_node
       end
@@ -25,12 +25,48 @@ module DataStructures
 
     # Adds element at the beginning of the list
     def prepend(element)
-      # TODO
+      @size += 1
+      new_node = Node.new(element)
+
+      if @header
+        @header.prev = new_node
+        new_node.next = @header
+      else
+        @trailer = new_node
+      end
+
+      @header = new_node
     end
 
     # Adds element in determined index
     def insert_at(element, index)
-      # TODO
+      raise(StandardError, 'IndexError') unless valid_index?(index)
+      return append(element) if index == size || size.zero?
+      return prepend(element) if index.zero?
+
+      new_node = Node.new(element)
+
+      if index <= size / 2
+        node_prev = @header
+        (index - 1).times.each do
+          node_prev = node_prev.next
+        end
+        node_next = node_prev.next
+      else
+        node_next = @trailer
+        ((size - 1) - index).times.each do
+          node_next = node_next.prev
+        end
+        node_prev = node_next.prev
+      end
+
+      node_prev.next = new_node
+      new_node.prev = node_prev
+
+      node_next.prev = new_node
+      new_node.next = node_next
+
+      @size += 1
     end
 
     # Removes element
@@ -129,6 +165,10 @@ module DataStructures
 
     def short_inspect
       "#{@header.data}, #{@header.next.data}, ..., #{@trailer.prev.data}, #{@trailer.data}"
+    end
+
+    def valid_index?(index)
+      (-size..size).cover?(index)
     end
   end
 end

@@ -9,12 +9,72 @@ describe DataStructures::List do
   describe '#append' do
     it do
       assert_equal(subject.size, 0)
+
       subject.append('1')
       assert_equal(subject.size, 1)
       assert_equal(subject.inspect, '[1]')
+
       subject.append('2')
       assert_equal(subject.size, 2)
       assert_equal(subject.inspect, '[1, 2]')
+
+      subject.append('3')
+      assert_equal(subject.size, 3)
+      assert_equal(subject.inspect, '[1, 2, 3]')
+    end
+  end
+
+  describe '#prepend' do
+    it do
+      assert_equal(subject.size, 0)
+
+      subject.prepend('1')
+      assert_equal(subject.size, 1)
+      assert_equal(subject.inspect, '[1]')
+
+      subject.prepend('2')
+      assert_equal(subject.size, 2)
+      assert_equal(subject.inspect, '[2, 1]')
+
+      subject.prepend('3')
+      assert_equal(subject.size, 3)
+      assert_equal(subject.inspect, '[3, 2, 1]')
+    end
+  end
+
+  describe '#insert_at' do
+    describe 'when success' do
+      it do
+        assert_equal(subject.size, 0)
+
+        subject.insert_at('1', 0)
+        assert_equal(subject.size, 1)
+        assert_equal(subject.inspect, '[1]')
+
+        subject.insert_at('2', 1)
+        assert_equal(subject.size, 2)
+        assert_equal(subject.inspect, '[1, 2]')
+
+        subject.insert_at('3', -1)
+        assert_equal(subject.size, 3)
+        assert_equal(subject.inspect, '[1, 3, 2]')
+
+        subject.insert_at('4', 2)
+        assert_equal(subject.size, 4)
+        assert_equal(subject.inspect, '[1, 3, 4, 2]')
+
+        subject.insert_at('5', -3)
+        assert_equal(subject.size, 5)
+        assert_equal(subject.inspect, '[1, 5, 3, 4, 2]')
+      end
+    end
+
+    describe 'when error' do
+      it do
+        error = assert_raises { subject.insert_at('1', -1) }
+        assert_equal 'IndexError', error.message
+        assert_raises { subject.insert_at('1', 1) }
+      end
     end
   end
 

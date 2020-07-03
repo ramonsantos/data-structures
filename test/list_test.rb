@@ -78,6 +78,48 @@ describe DataStructures::List do
     end
   end
 
+  describe '#revert' do
+    it do
+      subject.revert
+      assert_equal(subject.inspect, '[]')
+      subject.append('1')
+      subject.revert
+      assert_equal(subject.inspect, '[1]')
+      subject.append('2')
+      subject.append('3')
+      subject.append('4')
+      assert_equal(subject.inspect, '[1, 2, 3, 4]')
+      subject.revert
+      assert_equal(subject.inspect, '[4, 3, 2, 1]')
+      subject.append('5')
+      assert_equal(subject.inspect, '[4, 3, 2, 1, 5]')
+      subject.revert
+      assert_equal(subject.inspect, '[5, 1, 2, 3, 4]')
+    end
+  end
+
+  describe '#first' do
+    it do
+      subject.append('1')
+      subject.append('2')
+      subject.append('3')
+      assert_equal(subject.first, '1')
+      subject.prepend('0')
+      assert_equal(subject.first, '0')
+    end
+  end
+
+  describe '#last' do
+    it do
+      subject.append('1')
+      subject.append('2')
+      subject.append('3')
+      assert_equal(subject.last, '3')
+      subject.append('4')
+      assert_equal(subject.last, '4')
+    end
+  end
+
   describe '#size' do
     it do
       assert_equal(subject.size, 0)

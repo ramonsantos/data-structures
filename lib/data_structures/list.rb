@@ -87,12 +87,12 @@ module DataStructures
 
     # Returns the first element
     def first
-      # TODO
+      @header.data
     end
 
     # Returns the last element
     def last
-      # TODO
+      @trailer.data
     end
 
     # Returns the index of element
@@ -117,7 +117,15 @@ module DataStructures
 
     # Inverts the list order
     def revert
-      # TODO
+      current_node = @header
+
+      while current_node
+        current_node.next, current_node.prev = current_node.prev, current_node.next
+
+        current_node = current_node.prev
+      end
+
+      @header, @trailer = @trailer, @header
     end
 
     # Returns the size of list

@@ -189,28 +189,4 @@ describe DataStructures::List do
       refute(subject.empty?)
     end
   end
-
-  describe '#inspect' do
-    describe 'when list empty' do
-      it { assert_equal(subject.inspect, '[]') }
-    end
-
-    describe 'when list with one element' do
-      before { subject.append('new element') }
-
-      it { assert_equal(subject.inspect, '[new element]') }
-    end
-
-    describe 'when list with 5 elements' do
-      before { (1..5).to_a.each { |element| subject.append(element) } }
-
-      it { assert_equal('[1, 2, 3, 4, 5]', subject.inspect) }
-    end
-
-    describe 'when list with more than 5 elements' do
-      before { (1..6).to_a.each { |element| subject.append(element) } }
-
-      it { assert_equal('[1, 2, ..., 5, 6]', subject.inspect) }
-    end
-  end
 end

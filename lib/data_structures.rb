@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require './data_structures/build_inspect.rb'
+require './data_structures/linear_data_structure.rb'
 require './data_structures/list.rb'
 require './data_structures/stack.rb'
 require './data_structures/queue.rb'

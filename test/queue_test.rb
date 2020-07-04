@@ -50,7 +50,7 @@ describe DataStructures::Queue do
       assert_equal(subject.inspect, '<< 4')
 
       assert_equal(subject.dequeue, '4')
-      assert_equal(subject.inspect, '<< ')
+      assert_equal(subject.inspect, '<<')
 
       error = assert_raises { subject.dequeue }
       assert_equal 'IndexError', error.message
@@ -58,7 +58,7 @@ describe DataStructures::Queue do
       subject.enqueue('5')
       assert_equal(subject.inspect, '<< 5')
       assert_equal(subject.dequeue, '5')
-      assert_equal(subject.inspect, '<< ')
+      assert_equal(subject.inspect, '<<')
     end
   end
 

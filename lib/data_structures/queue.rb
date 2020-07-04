@@ -1,13 +1,7 @@
 # frozen_string_literal: true
 
 module DataStructures
-  class Queue
-    def initialize
-      @size    = 0
-      @header  = nil
-      @trailer = nil
-    end
-
+  class Queue < LinearDataStructure
     # Adds element
     def enqueue(element)
       new_node = Node.new(element)
@@ -21,7 +15,7 @@ module DataStructures
 
       @trailer = new_node
 
-      @size += 1
+      increases_size
     end
 
     # Removes element
@@ -40,18 +34,8 @@ module DataStructures
         @header = new_header
       end
 
-      @size -= 1
+      decreases_size
       node.data
-    end
-
-    # Returns the size of stack
-    def size
-      @size
-    end
-
-    # Returns true if stack contains no elements, otherwise returns false
-    def empty?
-      @size.zero?
     end
 
     # Returns the top element
@@ -60,30 +44,7 @@ module DataStructures
     end
 
     def inspect
-      "<< #{build_elements_to_inspect}"
-    end
-
-    private
-
-    def build_elements_to_inspect
-      return nil if empty?
-      return @header.data.to_s if @header == @trailer
-
-      full_inspect
-    end
-
-    def full_inspect
-      result = @header.data.to_s
-
-      pointer = @header.next
-
-      until pointer.nil?
-        result += " | #{pointer.data}"
-
-        pointer = pointer.next
-      end
-
-      result
+      build_inspect('<<', '<< ')
     end
   end
 end

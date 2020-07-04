@@ -92,7 +92,6 @@ module DataStructures
         node = @trailer
         @trailer = new_trailer
       else
-
         if index <= size / 2
           node_prev = @header
           (index - 1).times.each do

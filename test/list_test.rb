@@ -78,6 +78,58 @@ describe DataStructures::List do
     end
   end
 
+  describe '#remove_at' do
+    describe 'when success' do
+      it do
+        subject.append('0')
+        assert_equal(subject.size, 1)
+        assert_equal(subject.remove_at(0), '0')
+        assert_equal(subject.inspect, '[]')
+        assert_equal(subject.size, 0)
+
+        subject.append('1')
+        subject.append('2')
+        subject.append('3')
+        subject.append('4')
+        subject.append('5')
+
+        assert_equal(subject.remove_at(4), '5')
+        assert_equal(subject.inspect, '[1, 2, 3, 4]')
+        assert_equal(subject.size, 4)
+
+        assert_equal(subject.remove_at(0), '1')
+        assert_equal(subject.inspect, '[2, 3, 4]')
+        assert_equal(subject.size, 3)
+
+        assert_equal(subject.remove_at(-2), '3')
+        assert_equal(subject.inspect, '[2, 4]')
+        assert_equal(subject.size, 2)
+
+        subject.insert_at('5', 1)
+        assert_equal(subject.inspect, '[2, 5, 4]')
+        assert_equal(subject.remove_at(1), '5')
+        assert_equal(subject.inspect, '[2, 4]')
+        assert_equal(subject.size, 2)
+
+        assert_equal(subject.remove_at(-2), '2')
+        assert_equal(subject.inspect, '[4]')
+        assert_equal(subject.size, 1)
+
+        assert_equal(subject.remove_at(-1), '4')
+        assert_equal(subject.inspect, '[]')
+        assert_equal(subject.size, 0)
+      end
+    end
+
+    describe 'when error' do
+      it do
+        subject.append('1')
+        error = assert_raises { subject.remove_at(-2) }
+        assert_equal 'IndexError', error.message
+        assert_raises { subject.remove_at(1) }
+      end
+    end
+  end
   describe '#revert' do
     it do
       subject.revert

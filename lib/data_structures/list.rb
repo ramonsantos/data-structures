@@ -44,8 +44,6 @@ module DataStructures
       return append(element) if index == size || size.zero?
       return prepend(element) if index.zero?
 
-      new_node = Node.new(element)
-
       if index <= size / 2
         node_prev = @header
         (index - 1).times.each do
@@ -60,6 +58,8 @@ module DataStructures
         node_prev = node_next.prev
       end
 
+      new_node = Node.new(element)
+
       node_prev.next = new_node
       new_node.prev = node_prev
 
@@ -69,15 +69,63 @@ module DataStructures
       @size += 1
     end
 
+    # Removes element by index
+    def remove_at(index)
+      raise(StandardError, 'IndexError') unless remove_valid_index?(index)
+
+      index = (index % size)
+
+      if size == 1
+        node = @header
+        @header = nil
+        @trailer = nil
+      elsif index.zero?
+        new_header = @header.next
+        new_header.prev = nil
+        @header.next = nil
+        node = @header
+        @header = new_header
+      elsif index == (size - 1)
+        new_trailer = @trailer.prev
+        new_trailer.next = nil
+        @trailer.prev = nil
+        node = @trailer
+        @trailer = new_trailer
+      else
+
+        if index <= size / 2
+          node_prev = @header
+          (index - 1).times.each do
+            node_prev = node_prev.next
+          end
+
+          node = node_prev.next
+        else
+          node_next = @trailer
+          ((size - 1) - index).times.each do
+            node_next = node_next.prev
+          end
+
+          node = node_next.prev
+        end
+
+        node_prev = node.prev
+        node_next = node.next
+
+        node.prev = nil
+        node.next = nil
+
+        node_prev.next = node_next
+        node_next.prev = node_prev
+      end
+
+      @size -= 1
+      node.data
+    end
+
     # Removes element
     def remove(element)
       # TODO
-    end
-
-    # Removes element by index
-    def remove_at(index)
-      # TODO
-      @size -= 1
     end
 
     # Removes all elements
@@ -177,6 +225,10 @@ module DataStructures
 
     def valid_index?(index)
       (-size..size).cover?(index)
+    end
+
+    def remove_valid_index?(index)
+      (-size..(size - 1)).cover?(index)
     end
   end
 end

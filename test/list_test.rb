@@ -174,6 +174,59 @@ describe DataStructures::List do
     end
   end
 
+  describe '#get' do
+    it do
+      subject.append('1')
+      subject.append('2')
+      subject.append('3')
+      subject.append('4')
+      subject.append('5')
+
+      assert_equal(subject.get(-5), '1')
+      assert_equal(subject.get(-4), '2')
+      assert_equal(subject.get(-3), '3')
+      assert_equal(subject.get(-2), '4')
+      assert_equal(subject.get(-1), '5')
+      assert_equal(subject.get(0), '1')
+      assert_equal(subject.get(1), '2')
+      assert_equal(subject.get(2), '3')
+      assert_equal(subject.get(3), '4')
+      assert_equal(subject.get(4), '5')
+
+      error = assert_raises { subject.get(-6) }
+      assert_equal 'IndexError', error.message
+      assert_raises { subject.get(5) }
+    end
+  end
+
+  describe '#set' do
+    it do
+      subject.append('1')
+      subject.append('2')
+      subject.append('3')
+      subject.append('4')
+      subject.append('5')
+      subject.append('6')
+
+      assert_equal(subject.set('a', -6), 'a')
+      assert_equal(subject.set('b', -5), 'b')
+      assert_equal(subject.set('c', -4), 'c')
+      assert_equal(subject.set('d', -3), 'd')
+      assert_equal(subject.set('e', -2), 'e')
+      assert_equal(subject.set('f', -1), 'f')
+      assert_equal(subject.set('a', 0), 'a')
+      assert_equal(subject.set('b', 1), 'b')
+      assert_equal(subject.set('c', 2), 'c')
+      assert_equal(subject.set('d', 3), 'd')
+      assert_equal(subject.set('f', 4), 'f')
+      assert_equal(subject.set('g', 5), 'g')
+
+      error = assert_raises { subject.set('h', -7) }
+      assert_equal 'IndexError', error.message
+      assert_raises { subject.set('h', 6) }
+    end
+  end
+
   describe '#size' do
     it do
       assert_equal(subject.size, 0)

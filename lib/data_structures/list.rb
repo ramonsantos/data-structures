@@ -22,7 +22,7 @@ module DataStructures
 
     # Adds element in determined index
     def insert_at(element, index)
-      raise(StandardError, 'IndexError') unless valid_index?(index)
+      raise(StandardError, 'IndexError') unless valid_index_to_insert?(index)
 
       if index == size || size.zero?
         insert_at_trailer(element)
@@ -35,7 +35,7 @@ module DataStructures
 
     # Removes element by index
     def remove_at(index)
-      raise(StandardError, 'IndexError') unless remove_valid_index?(index)
+      raise(StandardError, 'IndexError') unless valid_index?(index)
 
       index = (index % size)
 
@@ -77,12 +77,14 @@ module DataStructures
 
     # Returns element by index
     def get(index)
-      # TODO
+      find_node_by_index(index)&.data
     end
 
     # Sets the element at index
     def set(element, index)
-      # TODO
+      node = find_node_by_index(index)
+      node.data = element
+      node.data
     end
 
     # Swap the position of two elements
@@ -113,6 +115,33 @@ module DataStructures
     end
 
     private
+
+    def find_node_by_index(index)
+      raise(StandardError, 'IndexError') unless valid_index?(index)
+
+      index = index % size
+
+      return @header if index.zero?
+      return @trailer if index == (size - 1)
+
+      if index <= size / 2
+        node_prev = @header
+
+        (index - 1).times.each do
+          node_prev = node_prev.next
+        end
+
+        node_prev.next
+      else
+        node_next = @trailer
+
+        ((size - 2) - index).times.each do
+          node_next = node_next.prev
+        end
+
+        node_next.prev
+      end
+    end
 
     def do_insert_at(element, index)
       if index <= size / 2
@@ -169,11 +198,11 @@ module DataStructures
       node.data
     end
 
-    def valid_index?(index)
+    def valid_index_to_insert?(index)
       (-size..size).cover?(index)
     end
 
-    def remove_valid_index?(index)
+    def valid_index?(index)
       (-size..(size - 1)).cover?(index)
     end
   end

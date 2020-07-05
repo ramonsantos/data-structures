@@ -2,7 +2,7 @@
 
 module DataStructures
   class Node
-    attr_reader :data
+    attr_accessor :data
     attr_accessor :next
     attr_accessor :prev
 

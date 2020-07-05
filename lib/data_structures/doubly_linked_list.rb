@@ -1,12 +1,13 @@
 # frozen_string_literal: true
 
 module DataStructures
-  class LinearDataStructure
+  class DoublyLinkedList
     include BuildInspect
 
     protected
 
     attr_accessor :header
+    attr_accessor :trailer
 
     def initialize
       @size    = 0

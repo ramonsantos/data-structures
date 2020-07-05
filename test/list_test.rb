@@ -152,6 +152,7 @@ describe DataStructures::List do
 
   describe '#first' do
     it do
+      assert_nil(subject.first)
       subject.append('1')
       subject.append('2')
       subject.append('3')
@@ -163,6 +164,7 @@ describe DataStructures::List do
 
   describe '#last' do
     it do
+      assert_nil(subject.last)
       subject.append('1')
       subject.append('2')
       subject.append('3')

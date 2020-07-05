@@ -1,66 +1,36 @@
 # frozen_string_literal: true
 
 module DataStructures
-  class List < LinearDataStructure
+  class List < DoublyLinkedList
+    include DoublyLinkedListCommon::Remove
+    include DoublyLinkedListTrailer::Insert
+    include DoublyLinkedListTrailer::Remove
+    include DoublyLinkedListTrailer::Data
+    include DoublyLinkedListHeader::Insert
+    include DoublyLinkedListHeader::Remove
+    include DoublyLinkedListHeader::Data
+
     # Adds element to the end of the list
     def append(element)
-      increases_size
-      new_node = Node.new(element)
-
-      if @header
-        new_node.prev = @trailer
-        @trailer.next = new_node
-      else
-        @header = new_node
-      end
-
-      @trailer = new_node
+      insert_at_trailer(element)
     end
 
     # Adds element at the beginning of the list
     def prepend(element)
-      increases_size
-      new_node = Node.new(element)
-
-      if @header
-        @header.prev = new_node
-        new_node.next = @header
-      else
-        @trailer = new_node
-      end
-
-      @header = new_node
+      insert_at_header(element)
     end
 
     # Adds element in determined index
     def insert_at(element, index)
       raise(StandardError, 'IndexError') unless valid_index?(index)
-      return append(element) if index == size || size.zero?
-      return prepend(element) if index.zero?
 
-      if index <= size / 2
-        node_prev = @header
-        (index - 1).times.each do
-          node_prev = node_prev.next
-        end
-        node_next = node_prev.next
+      if index == size || size.zero?
+        insert_at_trailer(element)
+      elsif index.zero?
+        insert_at_header(element)
       else
-        node_next = @trailer
-        ((size - 1) - index).times.each do
-          node_next = node_next.prev
-        end
-        node_prev = node_next.prev
+        do_insert_at(element, index)
       end
-
-      new_node = Node.new(element)
-
-      node_prev.next = new_node
-      new_node.prev = node_prev
-
-      node_next.prev = new_node
-      new_node.next = node_next
-
-      increases_size
     end
 
     # Removes element by index
@@ -70,50 +40,14 @@ module DataStructures
       index = (index % size)
 
       if size == 1
-        node = @header
-        @header = nil
-        @trailer = nil
+        remove_uniq_element
       elsif index.zero?
-        new_header = @header.next
-        new_header.prev = nil
-        @header.next = nil
-        node = @header
-        @header = new_header
+        remove_header
       elsif index == (size - 1)
-        new_trailer = @trailer.prev
-        new_trailer.next = nil
-        @trailer.prev = nil
-        node = @trailer
-        @trailer = new_trailer
+        remove_trailer
       else
-        if index <= size / 2
-          node_prev = @header
-          (index - 1).times.each do
-            node_prev = node_prev.next
-          end
-
-          node = node_prev.next
-        else
-          node_next = @trailer
-          ((size - 1) - index).times.each do
-            node_next = node_next.prev
-          end
-
-          node = node_next.prev
-        end
-
-        node_prev = node.prev
-        node_next = node.next
-
-        node.prev = nil
-        node.next = nil
-
-        node_prev.next = node_next
-        node_next.prev = node_prev
+        do_remove_at(index)
       end
-
-      decreases_size
-      node.data
     end
 
     # Removes element
@@ -128,12 +62,12 @@ module DataStructures
 
     # Returns the first element
     def first
-      @header.data
+      header_data
     end
 
     # Returns the last element
     def last
-      @trailer.data
+      trailer_data
     end
 
     # Returns the index of element
@@ -179,6 +113,61 @@ module DataStructures
     end
 
     private
+
+    def do_insert_at(element, index)
+      if index <= size / 2
+        node_prev = @header
+        (index - 1).times.each do
+          node_prev = node_prev.next
+        end
+        node_next = node_prev.next
+      else
+        node_next = @trailer
+        ((size - 1) - index).times.each do
+          node_next = node_next.prev
+        end
+        node_prev = node_next.prev
+      end
+
+      new_node = Node.new(element)
+
+      node_prev.next = new_node
+      new_node.prev = node_prev
+
+      node_next.prev = new_node
+      new_node.next = node_next
+
+      increases_size
+    end
+
+    def do_remove_at(index)
+      if index <= size / 2
+        node_prev = @header
+        (index - 1).times.each do
+          node_prev = node_prev.next
+        end
+
+        node = node_prev.next
+      else
+        node_next = @trailer
+        ((size - 1) - index).times.each do
+          node_next = node_next.prev
+        end
+
+        node = node_next.prev
+      end
+
+      node_prev = node.prev
+      node_next = node.next
+
+      node.prev = nil
+      node.next = nil
+
+      node_prev.next = node_next
+      node_next.prev = node_prev
+      decreases_size
+      node.data
+    end
 
     def valid_index?(index)
       (-size..size).cover?(index)

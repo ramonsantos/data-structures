@@ -48,9 +48,12 @@ describe DataStructures::Queue do
       assert_equal(subject.inspect, '<< 3 | 4')
       assert_equal(subject.dequeue, '3')
       assert_equal(subject.inspect, '<< 4')
+      assert_equal(subject.front, '4')
 
       assert_equal(subject.dequeue, '4')
       assert_equal(subject.inspect, '<<')
+      assert_nil(subject.send(:trailer))
+      assert_nil(subject.front)
 
       error = assert_raises { subject.dequeue }
       assert_equal 'IndexError', error.message

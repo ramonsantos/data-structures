@@ -3,3 +3,4 @@
 source 'https://rubygems.org'
 
 gem 'minitest'
+gem 'simplecov', '0.17.1'

@@ -41,7 +41,7 @@ module DataStructures
       remove_node(node)
     end
 
-    # Removes element
+    # Removes first element
     def remove(element)
       # TODO
     end
@@ -61,7 +61,7 @@ module DataStructures
       trailer_data
     end
 
-    # Returns the index of element
+    # Returns the index of first element
     def index_at(element)
       # TODO
     end

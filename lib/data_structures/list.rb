@@ -43,7 +43,15 @@ module DataStructures
 
     # Removes first element
     def remove(element)
-      # TODO
+      return remove_uniq_element if size == 1 && @header.data == element
+      return remove_header if @header.data == element
+      return remove_trailer if @trailer.data == element
+
+      _index, node = find_element(element)
+
+      raise(StandardError, 'ElementNotFound') if node.nil?
+
+      remove_node(node)
     end
 
     # Removes all elements
@@ -63,7 +71,8 @@ module DataStructures
 
     # Returns the index of first element
     def index_at(element)
-      # TODO
+      index, _node = find_element(element)
+      index
     end
 
     # Returns element by index
@@ -102,7 +111,8 @@ module DataStructures
 
     # Returns true if the given element is present in list, otherwise returns false
     def include?(element)
-      # TODO
+      _index, node = find_element(element)
+      !node.nil?
     end
 
     def inspect
@@ -160,6 +170,18 @@ module DataStructures
       node_prev.next = node_next
       node_next.prev = node_prev
       node.data
+    end
+
+    def find_element(element)
+      index = 0
+      pointer = @header
+
+      until index == size
+        return [index, pointer] if pointer.data == element
+
+        index += 1
+        pointer = pointer.next
+      end
     end
 
     def invalid_index?(index)

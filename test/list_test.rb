@@ -130,6 +130,49 @@ describe DataStructures::List do
       end
     end
   end
+
+  describe '#remove' do
+    describe 'when success' do
+      it do
+        subject.append('a')
+        subject.append('b')
+        subject.append('c')
+        subject.append('d')
+        subject.append('e')
+        assert_equal(subject.inspect, '[a, b, c, d, e]')
+
+        assert_equal(subject.remove('a'), 'a')
+        assert_equal(subject.inspect, '[b, c, d, e]')
+        assert_equal(subject.size, 4)
+
+        assert_equal(subject.remove('c'), 'c')
+        assert_equal(subject.inspect, '[b, d, e]')
+        assert_equal(subject.size, 3)
+
+        assert_equal(subject.remove('e'), 'e')
+        assert_equal(subject.inspect, '[b, d]')
+        assert_equal(subject.size, 2)
+
+        assert_equal(subject.remove('d'), 'd')
+        assert_equal(subject.inspect, '[b]')
+        assert_equal(subject.size, 1)
+
+        assert_equal(subject.remove('b'), 'b')
+        assert_equal(subject.inspect, '[]')
+        assert_equal(subject.size, 0)
+      end
+    end
+
+    describe 'when error' do
+      it do
+        assert_raises { subject.remove('z') }
+        subject.append('a')
+        error = assert_raises { subject.remove('z') }
+        assert_equal 'ElementNotFound', error.message
+      end
+    end
+  end
+
   describe '#revert' do
     it do
       subject.revert
@@ -147,6 +190,22 @@ describe DataStructures::List do
       assert_equal(subject.inspect, '[4, 3, 2, 1, 5]')
       subject.revert
       assert_equal(subject.inspect, '[5, 1, 2, 3, 4]')
+    end
+  end
+
+  describe '#include?' do
+    it do
+      subject.append('a')
+      subject.append('b')
+      subject.append('c')
+      subject.append('d')
+      subject.append('e')
+      subject.append('d')
+
+      assert_equal(subject.include?('a'), true)
+      assert_equal(subject.include?('d'), true)
+      assert_equal(subject.include?('e'), true)
+      assert_equal(subject.include?('x'), false)
     end
   end
 
@@ -171,6 +230,24 @@ describe DataStructures::List do
       assert_equal(subject.last, '3')
       subject.append('4')
       assert_equal(subject.last, '4')
+    end
+  end
+
+  describe '#index_at' do
+    it do
+      assert_nil(subject.index_at('z'))
+      subject.append('a')
+      subject.append('b')
+      subject.append('c')
+      subject.append('d')
+      subject.append('e')
+      subject.append('d')
+      assert_equal(subject.index_at('a'), 0)
+      assert_equal(subject.index_at('b'), 1)
+      assert_equal(subject.index_at('c'), 2)
+      assert_equal(subject.index_at('d'), 3)
+      assert_equal(subject.index_at('e'), 4)
+      assert_nil(subject.index_at('x'))
     end
   end
 

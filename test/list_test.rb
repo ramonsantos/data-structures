@@ -184,6 +184,19 @@ describe DataStructures::List do
     end
   end
 
+  describe '#clean' do
+    it do
+      subject.append('1')
+      subject.append('2')
+      subject.append('3')
+      expect(subject.inspect).must_equal('[1, 2, 3]')
+
+      subject.clean
+      expect(subject.size).must_equal(0)
+      expect(subject.inspect).must_equal('[]')
+    end
+  end
+
   describe '#include?' do
     it do
       subject.append('a')

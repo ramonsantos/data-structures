@@ -61,7 +61,8 @@ module DataStructures
 
     # Removes all elements
     def clean
-      # TODO
+      @trailer, @header = nil
+      @size = 0
     end
 
     # Returns the first element

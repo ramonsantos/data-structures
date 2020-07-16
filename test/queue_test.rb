@@ -1,33 +1,32 @@
 # frozen_string_literal: true
 
-require './test/test_helper'
-require 'data_structures'
+require_relative 'support/test_helper'
 
 describe DataStructures::Queue do
   subject { DataStructures::Queue.new }
 
   describe '#enqueue' do
     it do
-      assert_equal(subject.size, 0)
+      expect(subject.size).must_equal(0)
 
       subject.enqueue('1')
-      assert_equal(subject.size, 1)
-      assert_equal(subject.inspect, '<< 1')
+      expect(subject.size).must_equal(1)
+      expect(subject.inspect).must_equal('<< 1')
 
       subject.enqueue('2')
-      assert_equal(subject.size, 2)
-      assert_equal(subject.inspect, '<< 1 | 2')
+      expect(subject.size).must_equal(2)
+      expect(subject.inspect).must_equal('<< 1 | 2')
 
       subject.enqueue('3')
-      assert_equal(subject.size, 3)
-      assert_equal(subject.inspect, '<< 1 | 2 | 3')
+      expect(subject.size).must_equal(3)
+      expect(subject.inspect).must_equal('<< 1 | 2 | 3')
 
       subject.dequeue
-      assert_equal(subject.inspect, '<< 2 | 3')
+      expect(subject.inspect).must_equal('<< 2 | 3')
 
       subject.enqueue('4')
-      assert_equal(subject.size, 3)
-      assert_equal(subject.inspect, '<< 2 | 3 | 4')
+      expect(subject.size).must_equal(3)
+      expect(subject.inspect).must_equal('<< 2 | 3 | 4')
     end
   end
 
@@ -36,70 +35,70 @@ describe DataStructures::Queue do
       subject.enqueue('1')
       subject.enqueue('2')
       subject.enqueue('3')
-      assert_equal(subject.inspect, '<< 1 | 2 | 3')
+      expect(subject.inspect).must_equal('<< 1 | 2 | 3')
 
-      assert_equal(subject.dequeue, '1')
-      assert_equal(subject.inspect, '<< 2 | 3')
+      expect(subject.dequeue).must_equal('1')
+      expect(subject.inspect).must_equal('<< 2 | 3')
 
-      assert_equal(subject.dequeue, '2')
-      assert_equal(subject.inspect, '<< 3')
+      expect(subject.dequeue).must_equal('2')
+      expect(subject.inspect).must_equal('<< 3')
 
       subject.enqueue('4')
-      assert_equal(subject.inspect, '<< 3 | 4')
-      assert_equal(subject.dequeue, '3')
-      assert_equal(subject.inspect, '<< 4')
-      assert_equal(subject.front, '4')
+      expect(subject.inspect).must_equal('<< 3 | 4')
+      expect(subject.dequeue).must_equal('3')
+      expect(subject.inspect).must_equal('<< 4')
+      expect(subject.front).must_equal('4')
 
-      assert_equal(subject.dequeue, '4')
-      assert_equal(subject.inspect, '<<')
-      assert_nil(subject.send(:trailer))
-      assert_nil(subject.front)
+      expect(subject.dequeue).must_equal('4')
+      expect(subject.inspect).must_equal('<<')
+      expect(subject.send(:trailer)).must_be_nil
+      expect(subject.front).must_be_nil
 
-      error = assert_raises { subject.dequeue }
-      assert_equal 'IndexError', error.message
+      error = expect { subject.dequeue }.must_raise StandardError
+      expect(error.message).must_equal('IndexError')
 
       subject.enqueue('5')
-      assert_equal(subject.inspect, '<< 5')
-      assert_equal(subject.dequeue, '5')
-      assert_equal(subject.inspect, '<<')
+      expect(subject.inspect).must_equal('<< 5')
+      expect(subject.dequeue).must_equal('5')
+      expect(subject.inspect).must_equal('<<')
     end
   end
 
   describe '#size' do
     it do
-      assert_equal(subject.size, 0)
+      expect(subject.size).must_equal(0)
       subject.enqueue('1')
-      assert_equal(subject.size, 1)
+      expect(subject.size).must_equal(1)
       subject.dequeue
-      assert_equal(subject.size, 0)
+      expect(subject.size).must_equal(0)
     end
   end
 
   describe '#empty?' do
     it do
-      assert(subject.empty?)
+      expect(subject.empty?).must_equal(true)
       subject.enqueue('1')
-      refute(subject.empty?)
+      expect(subject.empty?).must_equal(false)
       subject.dequeue
-      assert(subject.empty?)
+      expect(subject.empty?).must_equal(true)
     end
   end
 
   describe '#front' do
     it do
-      assert_nil(subject.front)
+      expect(subject.front).must_be_nil
 
       subject.enqueue('1')
-      assert_equal(subject.front, '1')
+      expect(subject.front).must_equal('1')
 
       subject.enqueue('2')
-      assert_equal(subject.front, '1')
+      expect(subject.front).must_equal('1')
 
       subject.dequeue
-      assert_equal(subject.front, '2')
+      expect(subject.front).must_equal('2')
 
       subject.dequeue
-      assert_nil(subject.front)
+      expect(subject.front).must_be_nil
     end
   end
 end

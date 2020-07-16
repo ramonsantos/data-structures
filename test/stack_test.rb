@@ -1,33 +1,32 @@
 # frozen_string_literal: true
 
-require './test/test_helper'
-require 'data_structures'
+require_relative 'support/test_helper'
 
 describe DataStructures::Stack do
   subject { DataStructures::Stack.new }
 
   describe '#push' do
     it do
-      assert_equal(subject.size, 0)
+      expect(subject.size).must_equal(0)
 
       subject.push('1')
-      assert_equal(subject.size, 1)
-      assert_equal(subject.inspect, '[ 1')
+      expect(subject.size).must_equal(1)
+      expect(subject.inspect).must_equal('[ 1')
 
       subject.push('2')
-      assert_equal(subject.size, 2)
-      assert_equal(subject.inspect, '[ 1 | 2')
+      expect(subject.size).must_equal(2)
+      expect(subject.inspect).must_equal('[ 1 | 2')
 
       subject.push('3')
-      assert_equal(subject.size, 3)
-      assert_equal(subject.inspect, '[ 1 | 2 | 3')
+      expect(subject.size).must_equal(3)
+      expect(subject.inspect).must_equal('[ 1 | 2 | 3')
 
       subject.pop
-      assert_equal(subject.inspect, '[ 1 | 2')
+      expect(subject.inspect).must_equal('[ 1 | 2')
 
       subject.push('4')
-      assert_equal(subject.size, 3)
-      assert_equal(subject.inspect, '[ 1 | 2 | 4')
+      expect(subject.size).must_equal(3)
+      expect(subject.inspect).must_equal('[ 1 | 2 | 4')
     end
   end
 
@@ -36,67 +35,67 @@ describe DataStructures::Stack do
       subject.push('1')
       subject.push('2')
       subject.push('3')
-      assert_equal(subject.inspect, '[ 1 | 2 | 3')
+      expect(subject.inspect).must_equal('[ 1 | 2 | 3')
 
-      assert_equal(subject.pop, '3')
-      assert_equal(subject.inspect, '[ 1 | 2')
+      expect(subject.pop).must_equal('3')
+      expect(subject.inspect).must_equal('[ 1 | 2')
 
-      assert_equal(subject.pop, '2')
-      assert_equal(subject.inspect, '[ 1')
+      expect(subject.pop).must_equal('2')
+      expect(subject.inspect).must_equal('[ 1')
 
       subject.push('4')
-      assert_equal(subject.inspect, '[ 1 | 4')
-      assert_equal(subject.pop, '4')
-      assert_equal(subject.inspect, '[ 1')
+      expect(subject.inspect).must_equal('[ 1 | 4')
+      expect(subject.pop).must_equal('4')
+      expect(subject.inspect).must_equal('[ 1')
 
-      assert_equal(subject.pop, '1')
-      assert_equal(subject.inspect, '[')
+      expect(subject.pop).must_equal('1')
+      expect(subject.inspect).must_equal('[')
 
-      error = assert_raises { subject.pop }
-      assert_equal 'IndexError', error.message
+      error = expect { subject.pop }.must_raise StandardError
+      expect(error.message).must_equal('IndexError')
 
       subject.push('5')
-      assert_equal(subject.inspect, '[ 5')
-      assert_equal(subject.pop, '5')
-      assert_equal(subject.inspect, '[')
+      expect(subject.inspect).must_equal('[ 5')
+      expect(subject.pop).must_equal('5')
+      expect(subject.inspect).must_equal('[')
     end
   end
 
   describe '#size' do
     it do
-      assert_equal(subject.size, 0)
+      expect(subject.size).must_equal(0)
       subject.push('1')
-      assert_equal(subject.size, 1)
+      expect(subject.size).must_equal(1)
       subject.pop
-      assert_equal(subject.size, 0)
+      expect(subject.size).must_equal(0)
     end
   end
 
   describe '#empty?' do
     it do
-      assert(subject.empty?)
+      expect(subject.empty?).must_equal(true)
       subject.push('1')
-      refute(subject.empty?)
+      expect(subject.empty?).must_equal(false)
       subject.pop
-      assert(subject.empty?)
+      expect(subject.empty?).must_equal(true)
     end
   end
 
   describe '#top' do
     it do
-      assert_nil(subject.top)
+      expect(subject.top).must_be_nil
 
       subject.push('1')
-      assert_equal(subject.top, '1')
+      expect(subject.top).must_equal('1')
 
       subject.push('2')
-      assert_equal(subject.top, '2')
+      expect(subject.top).must_equal('2')
 
       subject.pop
-      assert_equal(subject.top, '1')
+      expect(subject.top).must_equal('1')
 
       subject.pop
-      assert_nil(subject.top)
+      expect(subject.top).must_be_nil
     end
   end
 end

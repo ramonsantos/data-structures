@@ -66,6 +66,18 @@ describe DataStructures::List do
         subject.insert_at('5', -3)
         assert_equal(subject.size, 5)
         assert_equal(subject.inspect, '[1, 5, 3, 4, 2]')
+
+        subject.insert_at('6', 4)
+        assert_equal(subject.size, 6)
+        assert_equal(subject.inspect, '[1, 5, 3, 4, 6, 2]')
+
+        subject.insert_at('7', 4)
+        assert_equal(subject.size, 7)
+        assert_equal(subject.inspect, '[1, 5, 3, 4, 7, 6, 2]')
+
+        subject.insert_at('8', 4)
+        assert_equal(subject.size, 8)
+        assert_equal(subject.inspect, '[1, 5, 3, 4, 8, 7, 6, 2]')
       end
     end
 
@@ -170,26 +182,6 @@ describe DataStructures::List do
         error = assert_raises { subject.remove('z') }
         assert_equal 'ElementNotFound', error.message
       end
-    end
-  end
-
-  describe '#revert' do
-    it do
-      subject.revert
-      assert_equal(subject.inspect, '[]')
-      subject.append('1')
-      subject.revert
-      assert_equal(subject.inspect, '[1]')
-      subject.append('2')
-      subject.append('3')
-      subject.append('4')
-      assert_equal(subject.inspect, '[1, 2, 3, 4]')
-      subject.revert
-      assert_equal(subject.inspect, '[4, 3, 2, 1]')
-      subject.append('5')
-      assert_equal(subject.inspect, '[4, 3, 2, 1, 5]')
-      subject.revert
-      assert_equal(subject.inspect, '[5, 1, 2, 3, 4]')
     end
   end
 
@@ -301,6 +293,26 @@ describe DataStructures::List do
       error = assert_raises { subject.set('h', -7) }
       assert_equal 'IndexError', error.message
       assert_raises { subject.set('h', 6) }
+    end
+  end
+
+  describe '#revert' do
+    it do
+      subject.revert
+      assert_equal(subject.inspect, '[]')
+      subject.append('1')
+      subject.revert
+      assert_equal(subject.inspect, '[1]')
+      subject.append('2')
+      subject.append('3')
+      subject.append('4')
+      assert_equal(subject.inspect, '[1, 2, 3, 4]')
+      subject.revert
+      assert_equal(subject.inspect, '[4, 3, 2, 1]')
+      subject.append('5')
+      assert_equal(subject.inspect, '[4, 3, 2, 1, 5]')
+      subject.revert
+      assert_equal(subject.inspect, '[5, 1, 2, 3, 4]')
     end
   end
 

@@ -16,11 +16,7 @@ module DataStructures
     def pop
       raise(StandardError, 'IndexError') if empty?
 
-      if size == 1
-        remove_uniq_element
-      else
-        remove_trailer
-      end
+      size == 1 ? remove_uniq_element : remove_trailer
     end
 
     # Returns the top element

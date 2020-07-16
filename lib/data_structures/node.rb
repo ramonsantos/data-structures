@@ -7,13 +7,18 @@ module DataStructures
     attr_accessor :prev
 
     def initialize(data)
+      @next, @prev = nil
       @data = data
-      @next = nil
-      @prev = nil
     end
 
     def inspect
-      "#{prev_inspect_content if @prev}:{#{@data}}:#{next_inspect_content if @next}"
+      "#{
+        prev_inspect_content if @prev
+      }:{#{
+        data
+      }}:#{
+        next_inspect_content if @next
+      }"
     end
 
     private

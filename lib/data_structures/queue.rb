@@ -16,11 +16,7 @@ module DataStructures
     def dequeue
       raise(StandardError, 'IndexError') if empty?
 
-      if size == 1
-        remove_uniq_element
-      else
-        remove_header
-      end
+      size == 1 ? remove_uniq_element : remove_header
     end
 
     # Returns the top element

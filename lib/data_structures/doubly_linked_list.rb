@@ -36,5 +36,15 @@ module DataStructures
     def decreases_size
       @size -= 1
     end
+
+    def link_nodes(left_node, right_node)
+      left_node.next = right_node
+      right_node.prev = left_node
+    end
+
+    def unlink_node(node)
+      node.prev = nil
+      node.next = nil
+    end
   end
 end

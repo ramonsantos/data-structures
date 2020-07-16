@@ -3,6 +3,8 @@
 module DataStructures
   module DoublyLinkedListCommon
     module Remove
+      private
+
       def remove_uniq_element
         node = @header
         @header = nil

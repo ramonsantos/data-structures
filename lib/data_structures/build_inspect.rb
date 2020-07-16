@@ -13,9 +13,8 @@ module DataStructures
     def inspect_content(separator)
       return header.data if header == @trailer
 
-      result = header.data.to_s
-
       pointer = header.next
+      result = header.data.to_s
 
       until pointer.nil?
         result += "#{separator}#{pointer.data}"

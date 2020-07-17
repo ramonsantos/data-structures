@@ -17,7 +17,7 @@ bundle install
 rake test
 ```
 
-# Classes and Methods
+## Classes and Methods
 
 ### Stack
 
